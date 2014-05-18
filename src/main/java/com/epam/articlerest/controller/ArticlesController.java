@@ -5,12 +5,12 @@ import com.epam.articlerest.article.ArticleList;
 import com.epam.articlerest.articleservice.ArticlesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.support.AbstractMultipartHttpServletRequest;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 @Controller
 public class ArticlesController {
@@ -20,7 +20,7 @@ public class ArticlesController {
     @Autowired
     private ArticlesService articlesService;
 
-    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    @RequestMapping(value = "/articles", method = RequestMethod.POST)
     public @ResponseBody Article save(HttpServletRequest req) {
         Article article = new Article();
         article.setTitle(req.getParameter(TITLE_PARAM));
@@ -28,12 +28,12 @@ public class ArticlesController {
         return articlesService.add(article);
     }
 
-    @RequestMapping(value = {"/list" , "/"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/articles"}, method = RequestMethod.GET)
     public @ResponseBody ArticleList list() {
         return articlesService.getArticles();
     }
 
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/articles/{id}", method = RequestMethod.DELETE)
     public @ResponseBody Article delete(@PathVariable("id") long id) {
         return articlesService.delete(id);
     }
